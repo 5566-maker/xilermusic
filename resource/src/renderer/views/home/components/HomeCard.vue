@@ -39,7 +39,7 @@
       <!-- 右上角额外信息 (例如播放量) -->
       <div
         v-if="$slots.extra"
-        class="absolute top-2 right-2 flex items-center gap-1 rounded-full bg-black/40 px-2 py-0.5 text-[10px] text-white backdrop-blur-md"
+        class="absolute top-2 right-2 flex items-center gap-1 rounded-full bg-black/40 px-2 py-0.5 text-xs text-white backdrop-blur-md"
       >
         <slot name="extra" />
       </div>

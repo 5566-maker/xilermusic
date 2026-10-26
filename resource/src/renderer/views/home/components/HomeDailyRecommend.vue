@@ -75,7 +75,7 @@
 
           <!-- Recommended Badge -->
           <div
-            class="badge absolute top-3 right-3 rounded-full bg-red-500 px-2.5 py-1 text-[10px] font-bold text-white"
+            class="badge absolute top-3 right-3 rounded-full bg-primary px-2.5 py-1 text-xs font-bold text-white"
           >
             {{ t('comp.dailyRecommend.badge') }}
           </div>
@@ -89,7 +89,7 @@
             {{ song.name }}
           </h3>
           <p
-            class="artist-name mt-1 md:mt-1.5 line-clamp-1 text-[10px] md:text-[11px] font-medium text-neutral-400 dark:text-neutral-500"
+            class="artist-name mt-1 md:mt-1.5 line-clamp-1 text-xs font-medium text-neutral-400 dark:text-neutral-500"
           >
             {{ getArtistNames(song) }}
           </p>

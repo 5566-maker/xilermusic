@@ -18,7 +18,7 @@
         <button
           v-for="(item, index) in quickNavItems"
           :key="item.key"
-          class="nav-chip flex flex-shrink-0 items-center gap-1.5 rounded-full px-3.5 py-[7px] text-[13px] font-medium transition-all duration-250 hover:text-neutral-900 dark:hover:text-neutral-100"
+          class="nav-chip flex flex-shrink-0 items-center gap-1.5 rounded-full px-3.5 py-[7px] text-xs font-medium transition-all duration-250 hover:text-neutral-900 dark:hover:text-neutral-100"
           :class="[
             item.active
               ? 'bg-primary text-white'
@@ -64,7 +64,7 @@
                   {{ t('comp.homeHero.dailyRecommend') }}
                 </h3>
                 <span
-                  class="mt-1.5 inline-flex items-center gap-1 rounded-md bg-white/15 px-2 py-0.5 text-[11px] font-semibold text-white/80 backdrop-blur-sm"
+                  class="mt-1.5 inline-flex items-center gap-1 rounded-md bg-white/15 px-2 py-0.5 text-xs font-semibold text-white/80 backdrop-blur-sm"
                 >
                   <i class="ri-calendar-check-fill" />
                   {{ dayRecommendSongs.length }} {{ t('comp.homeHero.songs') }}
@@ -239,7 +239,7 @@
             <!-- Content -->
             <div class="relative flex h-full flex-col justify-between p-5">
               <span
-                class="inline-flex w-fit items-center gap-1 rounded-md bg-black/30 px-2 py-0.5 text-[11px] font-semibold text-white backdrop-blur-sm"
+                class="inline-flex w-fit items-center gap-1 rounded-md bg-black/30 px-2 py-0.5 text-xs font-semibold text-white backdrop-blur-sm"
               >
                 <i class="ri-play-list-2-line" />
                 {{ t('comp.homeHero.hotPlaylists') }}
@@ -302,8 +302,8 @@ const hotPlaylists = ref<any[]>([]);
 const hotArtistsList = ref<any[]>([]);
 const dailyCoverRef = ref<HTMLImageElement | null>(null);
 const fmCoverRef = ref<HTMLImageElement | null>(null);
-const dailyCardBg = ref('linear-gradient(135deg, #667eea 0%, #764ba2 100%)');
-const fmCardBg = ref('linear-gradient(135deg, #e91e63 0%, #c2185b 100%)');
+const dailyCardBg = ref('#272727');
+const fmCardBg = ref('#1f1f1f');
 
 const isLoggedIn = computed(() => !!userStore.user);
 const dayRecommendSongs = computed(() => recommendStore.dailyRecommendSongs);
@@ -339,11 +339,10 @@ const extractDailyColor = async () => {
       const base = tinycolor(primaryColor);
       const hsl = base.toHsl();
       const c1 = tinycolor({ h: hsl.h, s: Math.min(hsl.s * 1.2, 1), l: 0.35 });
-      const c2 = tinycolor({ h: (hsl.h + 30) % 360, s: Math.min(hsl.s * 1.1, 1), l: 0.25 });
-      dailyCardBg.value = `linear-gradient(135deg, ${c1.toHexString()} 0%, ${c2.toHexString()} 100%)`;
+      dailyCardBg.value = c1.toHexString();
     }
   } catch {
-    // keep default gradient
+    // keep default color
   }
 };
 
@@ -357,11 +356,10 @@ const extractFmColor = async () => {
       const base = tinycolor(primaryColor);
       const hsl = base.toHsl();
       const c1 = tinycolor({ h: hsl.h, s: Math.min(hsl.s * 1.3, 1), l: 0.4 });
-      const c2 = tinycolor({ h: (hsl.h + 20) % 360, s: Math.min(hsl.s * 1.1, 1), l: 0.3 });
-      fmCardBg.value = `linear-gradient(135deg, ${c1.toHexString()} 0%, ${c2.toHexString()} 100%)`;
+      fmCardBg.value = c1.toHexString();
     }
   } catch {
-    // keep default gradient
+    // keep default color
   }
 };
 

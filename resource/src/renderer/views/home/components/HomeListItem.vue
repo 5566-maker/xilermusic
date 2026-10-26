@@ -58,7 +58,7 @@
       <!-- Badge -->
       <div
         v-if="badge"
-        class="absolute left-3 top-3 rounded-lg px-2.5 py-1 text-[11px] font-bold text-white shadow-lg backdrop-blur-sm"
+        class="absolute left-3 top-3 rounded-lg px-2.5 py-1 text-xs font-bold text-white shadow-lg backdrop-blur-sm"
         :class="badgeClass"
       >
         {{ badge }}
@@ -67,7 +67,7 @@
       <!-- Play Count (for playlists) -->
       <div
         v-if="playCount"
-        class="absolute right-3 top-3 flex items-center gap-1.5 rounded-lg bg-black/40 px-2.5 py-1 text-[11px] font-semibold text-white backdrop-blur-md"
+        class="absolute right-3 top-3 flex items-center gap-1.5 rounded-lg bg-black/40 px-2.5 py-1 text-xs font-semibold text-white backdrop-blur-md"
       >
         <i class="ri-play-fill text-[10px]" />
         <span>{{ formatNumber(playCount) }}</span>

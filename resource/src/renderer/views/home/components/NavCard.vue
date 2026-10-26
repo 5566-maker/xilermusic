@@ -49,7 +49,7 @@
         <!-- Badge (optional) -->
         <div
           v-if="badge"
-          class="badge px-2 py-0.5 rounded-full text-[10px] md:text-xs font-semibold animate-pulse"
+          class="badge px-2 py-0.5 rounded-full text-xs font-semibold animate-pulse"
           :class="colorClasses.badgeBg"
         >
           {{ badge }}

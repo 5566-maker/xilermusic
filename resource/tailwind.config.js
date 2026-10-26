@@ -4,6 +4,21 @@ export default {
   darkMode: 'class',
   theme: {
     extend: {
+      fontFamily: {
+        sans: [
+          '"Geist Sans"',
+          '"PingFang SC"',
+          '"Hiragino Sans GB"',
+          '"Noto Sans CJK SC"',
+          '"Noto Sans SC"',
+          '"Microsoft YaHei"',
+          'sans-serif'
+        ],
+        mono: ['"Geist Mono"', 'ui-monospace', 'SFMono-Regular', 'monospace']
+      },
+      transitionTimingFunction: {
+        skill: 'cubic-bezier(0.22, 1, 0.36, 1)'
+      },
       colors: {
         primary: {
           DEFAULT: '#22c55e',
@@ -17,15 +32,16 @@ export default {
         },
         dark: {
           DEFAULT: '#000',
-          100: '#161616',
-          200: '#2d2d2d',
-          300: '#3d3d3d'
+          100: '#181818',
+          200: '#1f1f1f',
+          300: '#272727',
+          400: '#313131'
         },
         light: {
           DEFAULT: '#fff',
-          100: '#f8f9fa',
-          200: '#e9ecef',
-          300: '#dee2e6'
+          100: '#f5f5f5',
+          200: '#ebebeb',
+          300: '#e0e0e0'
         }
       }
     }

@@ -55,36 +55,38 @@ const theme = computed(() => {
 });
 
 /**
- * Apple Glass 主题：把 naive-ui 的面板底色改成半透明，
- * 配合 glass.css 里的 backdrop-filter 实现毛玻璃质感。
+ * 扁平设计系统：naive-ui 面板用不透明的批准色板，
+ * 强调色全站统一为 Tailwind primary 的 #22c55e，圆角只用标准阶。
  */
 const themeOverrides = computed(() => {
   const isDark = theme.value === 'dark';
-  const panel = isDark ? 'rgba(32, 33, 39, 0.82)' : 'rgba(255, 255, 255, 0.78)';
-  const panelSoft = isDark ? 'rgba(28, 29, 34, 0.72)' : 'rgba(255, 255, 255, 0.62)';
-  const inputBg = isDark ? 'rgba(255, 255, 255, 0.06)' : 'rgba(255, 255, 255, 0.5)';
+  const panel = isDark ? '#181818' : '#ffffff';
+  const panelSoft = isDark ? '#181818' : '#f5f5f5';
+  const inputBg = isDark ? '#1f1f1f' : '#f5f5f5';
+  const border = isDark ? '#272727' : '#e5e5e5';
 
   return {
     common: {
-      primaryColor: '#34c759',
-      primaryColorHover: '#4cd964',
-      primaryColorPressed: '#28a745',
-      primaryColorSuppl: '#34c759',
-      borderRadius: '14px',
-      borderRadiusSmall: '10px'
+      primaryColor: '#22c55e',
+      primaryColorHover: '#4ade80',
+      primaryColorPressed: '#16a34a',
+      primaryColorSuppl: '#22c55e',
+      borderColor: border,
+      borderRadius: '16px',
+      borderRadiusSmall: '8px'
     },
-    Card: { color: panelSoft, borderRadius: '20px' },
+    Card: { color: panelSoft, borderRadius: '16px' },
     Modal: { color: panel, borderRadius: '24px' },
     Dialog: { color: panel, borderRadius: '24px' },
     Drawer: { color: panel, borderRadius: '24px' },
-    Popover: { color: panel, borderRadius: '16px' },
-    Popconfirm: { color: panel, borderRadius: '16px' },
-    Dropdown: { color: panel, borderRadius: '16px' },
+    Popover: { color: panel, borderRadius: '12px' },
+    Popconfirm: { color: panel, borderRadius: '12px' },
+    Dropdown: { color: panel, borderRadius: '12px' },
     Input: { color: inputBg, borderRadius: '12px' },
     InternalSelection: { color: inputBg, borderRadius: '12px' },
     Tag: { borderRadius: '8px' },
-    Button: { borderRadiusMedium: '12px', borderRadiusSmall: '10px' },
-    Tooltip: { borderRadius: '10px' }
+    Button: { borderRadiusMedium: '12px', borderRadiusSmall: '8px' },
+    Tooltip: { borderRadius: '8px' }
   };
 });
 

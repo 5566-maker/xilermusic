@@ -1,9 +1,15 @@
+import '@fontsource/geist-sans/400.css';
+import '@fontsource/geist-sans/500.css';
+import '@fontsource/geist-sans/600.css';
+import '@fontsource/geist-sans/700.css';
+import '@fontsource/geist-mono/400.css';
+import '@fontsource/geist-mono/500.css';
 import './index.css';
 import '@/assets/css/mobile.css';
 import 'animate.css';
 import 'remixicon/fonts/remixicon.css';
-// Apple Glass 主题层：放在所有基础样式之后，确保覆盖生效
-import './styles/glass.css';
+// 扁平设计系统（redesign skill 的 Design Values）：放在所有基础样式之后，确保覆盖生效
+import './styles/design.css';
 
 import { createApp } from 'vue';
 
