@@ -605,3 +605,118 @@ body::after {
     scroll-behavior: auto !important;
   }
 }
+
+/* ============================================================
+   13. 玻璃质感增强（v2）
+   ------------------------------------------------------------
+   v1 的问题：环境光太淡（浅色下基底近乎纯白），玻璃面和背景
+   几乎同色，blur 没有可折射的内容，整体看起来是「白板」
+   而不是磨砂玻璃。v2 的处理：
+   1. 环境光加深、加饱和，补一团暖色（桃）光，玻璃才有东西可透
+   2. 环境光缓慢漂移（34s），是「活的」背景而非静态贴纸
+   3. 侧栏 / Tab 轨道 / 搜索框升到 surface-2 的存在感
+   4. Hero 卡与首页卡片补齐玻璃描边、内高光与整卡玻璃底
+   5. 歌曲行静止态给一层极薄的玻璃片，不再完全裸奔
+   ============================================================ */
+
+/* ---------- 13.1 环境光 v2 ---------- */
+:root {
+  --ambient-a: rgba(96, 140, 255, 0.78);
+  --ambient-b: rgba(255, 138, 196, 0.62);
+  --ambient-c: rgba(84, 224, 184, 0.58);
+  --ambient-d: rgba(255, 196, 120, 0.5);
+  --ambient-base-1: #f7f8fc;
+  --ambient-base-2: #e4eaf5;
+}
+
+:root.dark {
+  --ambient-a: rgba(50, 100, 205, 0.72);
+  --ambient-b: rgba(158, 52, 122, 0.58);
+  --ambient-c: rgba(20, 116, 96, 0.55);
+  --ambient-d: rgba(150, 92, 30, 0.35);
+}
+
+body::before {
+  background:
+    radial-gradient(52% 48% at 2% 0%, var(--ambient-a) 0%, transparent 68%),
+    radial-gradient(48% 42% at 98% 2%, var(--ambient-b) 0%, transparent 66%),
+    radial-gradient(36% 30% at 68% 24%, var(--ambient-d) 0%, transparent 64%),
+    radial-gradient(58% 52% at 46% 110%, var(--ambient-c) 0%, transparent 68%),
+    linear-gradient(168deg, var(--ambient-base-1) 0%, var(--ambient-base-2) 100%);
+  animation: g-ambient-drift 34s ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+@keyframes g-ambient-drift {
+  from {
+    transform: translate3d(-1.6%, -1%, 0) scale(1);
+  }
+  to {
+    transform: translate3d(1.6%, 1.6%, 0) scale(1.07);
+  }
+}
+
+/* ---------- 13.2 侧栏：更明确的磨砂面板 ---------- */
+@media (min-width: 768px) {
+  .menu {
+    background: var(--g-surface-2) !important;
+    -webkit-backdrop-filter: blur(var(--g-blur-lg)) saturate(200%);
+    backdrop-filter: blur(var(--g-blur-lg)) saturate(200%);
+    box-shadow:
+      inset -1px 0 0 var(--g-stroke-soft),
+      var(--g-inner-hi);
+  }
+}
+
+/* ---------- 13.3 顶部区域：Tab 轨道与搜索框升一级 ---------- */
+.tabs-track {
+  background: var(--g-surface-2) !important;
+  -webkit-backdrop-filter: blur(var(--g-blur-md)) saturate(var(--g-sat));
+  backdrop-filter: blur(var(--g-blur-md)) saturate(var(--g-sat));
+  box-shadow: var(--g-shadow-1), var(--g-inner-hi);
+}
+
+.search-inner {
+  background: var(--g-surface-2) !important;
+}
+
+/* ---------- 13.4 Hero 卡：玻璃描边 + 内高光 + 更大圆角 ---------- */
+.daily-card,
+.fm-card {
+  border: 1px solid var(--g-stroke-soft) !important;
+  border-radius: var(--g-r-lg) !important;
+  box-shadow:
+    var(--g-shadow-2),
+    var(--g-inner-hi) !important;
+}
+
+/* ---------- 13.5 首页卡片：整卡玻璃底 ---------- */
+.home-list-card {
+  background: var(--g-surface-1);
+  border: 1px solid var(--g-stroke-soft);
+  border-radius: var(--g-r-lg);
+  box-shadow: var(--g-shadow-1), var(--g-inner-hi);
+  padding: 10px 10px 12px;
+}
+
+.home-list-card:hover {
+  box-shadow: var(--g-shadow-2), var(--g-inner-hi);
+}
+
+/* ---------- 13.6 歌曲行：静止态薄玻璃片 ---------- */
+.song-item,
+.standard-song-item,
+[class*='song-item'] {
+  background: rgba(255, 255, 255, 0.14);
+}
+
+:root.dark .song-item,
+:root.dark .standard-song-item,
+:root.dark [class*='song-item'] {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+/* ---------- 13.7 选区色：跟强调色对齐 ---------- */
+::selection {
+  background: rgba(52, 199, 89, 0.26);
+}
