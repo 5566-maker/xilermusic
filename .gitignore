@@ -1,0 +1,15 @@
+# 依赖
+node_modules/
+resource/node_modules/
+
+# 构建产物（CI 会自动构建，本地构建也会生成）
+resource/src/renderer/dist/
+resource/public/
+
+# 工作区元数据
+.workbuddy-ai/
+
+# 日志与系统文件
+*.log
+.DS_Store
+Thumbs.db

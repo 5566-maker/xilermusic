@@ -1,0 +1,19 @@
+# Caddy 反代 + 自动 HTTPS
+# 把 xiler.example.com 换成你自己的域名，DNS 先解析到 VPS IP
+# 同时在 docker-compose.yml 里把 xiler-music 的 ports 改成 "127.0.0.1:8080:8080"
+
+xiler.example.com {
+	encode zstd gzip
+
+	# 音频是浏览器直连 126.net，这里只走页面和 API，无需特殊超时
+	reverse_proxy xiler-music:8080 {
+		header_up X-Real-IP {remote_host}
+	}
+
+	log {
+		output file /data/access.log {
+			roll_size 10MB
+			roll_keep 3
+		}
+	}
+}

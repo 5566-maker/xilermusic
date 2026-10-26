@@ -1,0 +1,43 @@
+# 构建上下文是 xilermusic/ 根目录，所以路径都相对这里
+
+# 依赖（几百 MB，镜像里重新装）
+node_modules
+resource/node_modules
+
+# 工作区元数据
+.workbuddy-ai
+
+# Docker 配置本身不需要进镜像
+dockerimg
+.dockerignore
+
+# 前端构建产物（镜像内会重新构建）
+resource/src/renderer/dist
+resource/src/renderer/dist_*
+resource/src/renderer/dist_bak_*
+resource/public
+
+# 版本控制与开发辅助
+resource/.git
+resource/.github
+resource/.husky
+resource/.vscode
+resource/.cursor
+resource/.junie
+
+# 桌面端专用，Web 版用不到
+resource/android
+resource/build
+resource/tests
+resource/docs
+
+# 备用启动脚本（server.js 已包含这些功能）
+resource/run-api.cjs
+resource/serve-web.cjs
+resource/start-web.bat
+
+# 杂项
+*.log
+**/*.log
+.DS_Store
+Thumbs.db

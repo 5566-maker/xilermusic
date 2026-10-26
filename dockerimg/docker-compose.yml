@@ -1,0 +1,60 @@
+services:
+  xiler-music:
+    # 默认直接拉取 GitHub Actions 构建好的镜像（快）
+    image: ghcr.io/5566-maker/xiler-music-web:latest
+
+    # 想用本地源码构建，取消下面注释，并执行 docker compose up -d --build
+    # 注意构建上下文必须是上一层（xilermusic/），否则访问不到 resource/ 里的源码
+    # build:
+    #   context: ..
+    #   dockerfile: dockerimg/Dockerfile
+
+    container_name: xiler-music
+    restart: unless-stopped
+    ports:
+      # 左边是 VPS 对外端口，只绑 127.0.0.1 时需前面再套一层反代（推荐）
+      - "8080:8080"
+    environment:
+      TZ: Asia/Tokyo
+      # ⚠️ 公网部署务必设置，否则任何人都能白嫖你的音源接口
+      BASIC_AUTH_USER: ${BASIC_AUTH_USER:-}
+      BASIC_AUTH_PASS: ${BASIC_AUTH_PASS:-}
+    # 日志限制，防止长期运行撑爆磁盘
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+    healthcheck:
+      test:
+        - CMD
+        - node
+        - -e
+        - "fetch('http://127.0.0.1:8080/').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
+      interval: 30s
+      timeout: 5s
+      start_period: 25s
+      retries: 3
+
+# ─────────────────────────────────────────────────────────────
+# 可选：用 Caddy 自动申请 HTTPS 证书，对外只暴露 80/443
+# 用法：取消下面注释，把 xiler.example.com 换成你的域名，
+#      并把上面 xiler-music 的 ports 改成 "127.0.0.1:8080:8080"
+# ─────────────────────────────────────────────────────────────
+#  caddy:
+#    image: caddy:2-alpine
+#    container_name: xiler-caddy
+#    restart: unless-stopped
+#    ports:
+#      - "80:80"
+#      - "443:443"
+#    volumes:
+#      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+#      - caddy_data:/data
+#      - caddy_config:/config
+#    depends_on:
+#      - xiler-music
+#
+#volumes:
+#  caddy_data:
+#  caddy_config:
