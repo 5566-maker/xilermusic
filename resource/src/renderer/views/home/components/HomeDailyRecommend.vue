@@ -161,7 +161,8 @@ const handleSongClick = async (_song: any, index: number) => {
     playLoading: false
   }));
 
-  playlistStore.prepareSongPlayback(playlist[index], playlist);
+  // 点单曲只播单曲，整表播放走 playAll
+  playlistStore.prepareSongPlayback(playlist[index], [playlist[index]]);
   await playTrack(playlist[index], true);
 };
 

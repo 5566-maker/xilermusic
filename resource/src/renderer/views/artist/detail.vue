@@ -786,13 +786,10 @@ const addToPlaylist = () => {
 };
 
 const handlePlay = (song: any) => {
-  playerStore.prepareSongPlayback(
-    song,
-    filteredSongs.value.map((item) => ({
-      ...item,
-      picUrl: item.al?.picUrl || item.picUrl
-    }))
-  );
+  // 点单曲只播单曲，整表播放走「播放全部」
+  playerStore.prepareSongPlayback(song, [
+    { ...song, picUrl: song.al?.picUrl || song.picUrl }
+  ]);
 };
 
 // 简化观察器设置

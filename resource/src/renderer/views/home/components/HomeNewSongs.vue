@@ -88,7 +88,8 @@ const fetchSongs = async () => {
 };
 
 const playSong = (song: SongResult) => {
-  playerStore.prepareSongPlayback(song, songs.value);
+  // 点单曲只播单曲，整表播放走「播放全部」
+  playerStore.prepareSongPlayback(song, [song]);
 };
 
 const playAll = () => {

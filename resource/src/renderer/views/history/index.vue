@@ -635,7 +635,8 @@ const handleScroll = (e: any) => {
 };
 
 const handlePlay = (song: SongResult) => {
-  playerStore.prepareSongPlayback(song, displayList.value);
+  // 点单曲只播单曲
+  playerStore.prepareSongPlayback(song, [song]);
 };
 
 // 处理 tab 切换

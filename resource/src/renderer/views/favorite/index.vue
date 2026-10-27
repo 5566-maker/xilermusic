@@ -353,7 +353,8 @@ watch(
 );
 
 const handlePlay = (song: SongResult) => {
-  playerStore.prepareSongPlayback(song, favoriteSongs.value);
+  // 点单曲只播单曲
+  playerStore.prepareSongPlayback(song, [song]);
 };
 
 const getItemAnimationDelay = (index: number) => {

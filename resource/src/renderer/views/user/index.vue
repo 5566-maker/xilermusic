@@ -437,8 +437,8 @@ const openAlbum = async (item: any) => {
 };
 
 const handlePlay = (song: any) => {
-  const tracks = recordList.value || [];
-  playerStore.prepareSongPlayback(song, tracks);
+  // 点单曲只播单曲
+  playerStore.prepareSongPlayback(song, [song]);
 };
 
 // 显示关注列表

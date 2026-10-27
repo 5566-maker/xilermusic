@@ -269,13 +269,8 @@ const formatPublishTime = (time: number) => {
 };
 
 const handlePlay = (song: any) => {
-  playerStore.prepareSongPlayback(
-    song,
-    songs.value.map((item) => ({
-      ...item,
-      picUrl: item.al.picUrl
-    }))
-  );
+  // 点单曲只播单曲
+  playerStore.prepareSongPlayback(song, [{ ...song, picUrl: song.al?.picUrl }]);
 };
 
 // 暴露方法给父组件

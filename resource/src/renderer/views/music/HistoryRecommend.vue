@@ -251,10 +251,10 @@ const addToPlaylist = () => {
   message.success(t('comp.musicList.addToPlaylistSuccess', { count: newSongs.length }));
 };
 
-// 播放单首歌曲
+// 播放单首歌曲：只播这一首，整表播放走「播放全部」
 const handlePlay = (song: SongResult) => {
   if (songs.value.length === 0) return;
-  playerStore.prepareSongPlayback(song, songs.value.map(formatSong));
+  playerStore.prepareSongPlayback(song, [formatSong(song)]);
 };
 
 // 播放全部

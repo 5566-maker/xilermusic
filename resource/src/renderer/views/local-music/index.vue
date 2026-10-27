@@ -279,8 +279,8 @@ async function handleScan(): Promise<void> {
  */
 async function handlePlaySong(song: SongResult): Promise<void> {
   try {
-    // 设置播放列表上下文，确保上下一首切换正常
-    playerStore.prepareSongPlayback(song, filteredSongResults.value);
+    // 点单曲只播单曲
+    playerStore.prepareSongPlayback(song, [song]);
   } catch (error) {
     console.error('播放本地音乐失败:', error);
   }

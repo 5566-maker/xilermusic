@@ -638,9 +638,8 @@ const handlePlayAll = () => {
 };
 
 const handlePlayItem = (item: any) => {
-  const list = searchKeyword.value ? filteredSongs.value : allFilteredSongs.value;
-  const replaced = playerStore.prepareSongPlayback(formatSong(item), list.map(formatSong));
-  if (replaced) void completePlaybackQueue();
+  // 点单曲只播单曲，整表播放走「播放全部」
+  playerStore.prepareSongPlayback(formatSong(item), [formatSong(item)]);
 };
 
 const handleRemoveSong = async (songId: number) => {

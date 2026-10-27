@@ -393,7 +393,8 @@ const openPlaylist = (item: any) => {
 
 const handlePlay = (song: any) => {
   if (!recordList.value || recordList.value.length === 0) return;
-  playerStore.prepareSongPlayback(song, recordList.value);
+  // 点单曲只播单曲
+  playerStore.prepareSongPlayback(song, [song]);
 };
 
 const showFollowList = () => {
