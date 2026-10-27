@@ -62,7 +62,7 @@ const props = defineProps({
   },
   selectColor: {
     type: String,
-    default: '#fa243c'
+    default: '#38bdf8'
   },
   menus: {
     type: Array as any,

@@ -586,8 +586,8 @@ onMounted(() => {
   color: #9ca3af;
 }
 .back-btn:hover {
-  color: #fa243c;
-  border-color: #fa243c;
+  color: #38bdf8;
+  border-color: #38bdf8;
 }
 
 /* ── Search wrap ─────────────────────────────────────── */
@@ -624,13 +624,13 @@ onMounted(() => {
   background: #111827;
 }
 .search-inner--focus {
-  border-color: #fa243c;
+  border-color: #38bdf8;
   background: #fff;
-  box-shadow: 0 0 0 3px rgba(250, 36, 60, 0.1);
+  box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.1);
 }
 .dark .search-inner--focus {
   background: #0a0a0a;
-  box-shadow: 0 0 0 3px rgba(250, 36, 60, 0.12);
+  box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.12);
 }
 
 .search-icon-glyph {
@@ -640,7 +640,7 @@ onMounted(() => {
   transition: color 0.2s;
 }
 .search-inner--focus .search-icon-glyph {
-  color: #fa243c;
+  color: #38bdf8;
 }
 
 .search-input {
@@ -682,11 +682,11 @@ onMounted(() => {
 }
 .type-chip:hover {
   background: #dcfce7;
-  color: #d70015;
+  color: #0071e3;
 }
 .dark .type-chip:hover {
-  background: rgba(250, 36, 60, 0.1);
-  color: #fa243c;
+  background: rgba(56, 189, 248, 0.1);
+  color: #38bdf8;
 }
 
 /* ── Action buttons ──────────────────────────────────── */
@@ -709,14 +709,14 @@ onMounted(() => {
   color: #9ca3af;
 }
 .action-btn:hover {
-  color: #fa243c;
+  color: #38bdf8;
   border-color: #bbf7d0;
   background: #f0fdf4;
 }
 .dark .action-btn:hover {
   border-color: #166534;
-  background: rgba(250, 36, 60, 0.08);
-  color: #fa243c;
+  background: rgba(56, 189, 248, 0.08);
+  color: #38bdf8;
 }
 .action-btn.intelligence-active {
   color: #ec4899;
@@ -749,8 +749,8 @@ onMounted(() => {
   border-color: #374151;
 }
 .user-btn:hover {
-  border-color: #fa243c;
-  box-shadow: 0 0 0 2px rgba(250, 36, 60, 0.12);
+  border-color: #38bdf8;
+  box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.12);
 }
 
 .login-label {
@@ -868,7 +868,7 @@ onMounted(() => {
 }
 .zoom-btn:hover {
   background: #dcfce7;
-  color: #d70015;
+  color: #0071e3;
 }
 .zoom-val {
   font-size: 11px;
@@ -882,7 +882,7 @@ onMounted(() => {
 }
 .zoom-val--100 {
   background: #dcfce7;
-  color: #d70015;
+  color: #0071e3;
 }
 .ver-chip {
   font-size: 11px;
@@ -921,12 +921,12 @@ onMounted(() => {
 .suggest-row:hover,
 .suggest-row--hi {
   background: #f0fdf4;
-  color: #d70015;
+  color: #0071e3;
 }
 .dark .suggest-row:hover,
 .dark .suggest-row--hi {
-  background: rgba(250, 36, 60, 0.06);
-  color: #fa243c;
+  background: rgba(56, 189, 248, 0.06);
+  color: #38bdf8;
 }
 .suggest-icon {
   font-size: 13px;

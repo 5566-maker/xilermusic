@@ -57,7 +57,7 @@ const theme = computed(() => {
 /**
  * Apple Liquid Glass 主题：naive-ui 面板用半透明底色，
  * 配合 glass.css 的 backdrop-filter 实现磨砂玻璃；
- * 强调色为 Apple Music 红 #fa243c。
+ * 强调色为 Apple Music 红 #38bdf8。
  */
 const themeOverrides = computed(() => {
   const isDark = theme.value === 'dark';
@@ -68,10 +68,10 @@ const themeOverrides = computed(() => {
 
   return {
     common: {
-      primaryColor: '#fa243c',
-      primaryColorHover: '#fb5c74',
-      primaryColorPressed: '#d70015',
-      primaryColorSuppl: '#fa243c',
+      primaryColor: '#38bdf8',
+      primaryColorHover: '#7dd3fc',
+      primaryColorPressed: '#0071e3',
+      primaryColorSuppl: '#38bdf8',
       borderColor: border,
       borderRadius: '16px',
       borderRadiusSmall: '10px'
