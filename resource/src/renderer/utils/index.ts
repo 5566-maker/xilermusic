@@ -8,6 +8,10 @@ export const setBackgroundImg = (url: String) => {
 };
 // 设置动画类型
 export const setAnimationClass = (type: String) => {
+  // 移动端不用 animate.css 入场动画：长列表逐条弹入既卡顿又反复滑动，切 tab 要的是立刻到位
+  if (isMobile.value) {
+    return '';
+  }
   const settingsStore = useSettingsStore();
   if (settingsStore.setData && settingsStore.setData.noAnimate) {
     return '';
@@ -24,6 +28,9 @@ export const setAnimationClass = (type: String) => {
 };
 // 设置动画延时
 export const setAnimationDelay = (index: number = 6, time: number = 50) => {
+  if (isMobile.value) {
+    return '';
+  }
   const settingsStore = useSettingsStore();
   if (settingsStore.setData?.noAnimate) {
     return '';
@@ -35,6 +42,9 @@ export const setAnimationDelay = (index: number = 6, time: number = 50) => {
 // 计算动画延迟(秒) - 用于新的动画效果
 // 根据动画速度配置自动调整延迟时间
 export const calculateAnimationDelay = (index: any, baseDelay: number = 0.03): string => {
+  if (isMobile.value) {
+    return '0s';
+  }
   const settingsStore = useSettingsStore();
   if (settingsStore.setData?.noAnimate) {
     return '0s';

@@ -34,8 +34,9 @@
           {{ t('history.title') }}
         </button>
       </div>
-      <favorite v-if="mobileTab === 'favorite'" class="flex-item min-h-0" />
-      <history-list v-else class="flex-item min-h-0" />
+      <!-- v-show 只切可见性、不卸载重挂：来回切换不重新拉数据、不重播入场动画 -->
+      <favorite v-show="mobileTab === 'favorite'" class="flex-item min-h-0" />
+      <history-list v-show="mobileTab === 'history'" class="flex-item min-h-0" />
     </div>
   </div>
 </template>

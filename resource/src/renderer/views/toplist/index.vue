@@ -31,7 +31,7 @@
               v-for="(item, index) in topList"
               :key="item.id"
               class="toplist-card group cursor-pointer animate-item"
-              :style="{ animationDelay: calculateAnimationDelay(index, 0.05) }"
+              :style="{ animationDelay: calculateAnimationDelay(Math.min(index, 8), 0.05) }"
               @click.stop="openToplist(item)"
             >
               <!-- Cover Image -->
