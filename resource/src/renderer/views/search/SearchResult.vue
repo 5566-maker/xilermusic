@@ -467,7 +467,8 @@ const handleScroll = (e: any) => {
 const dateFormat = (time: any) => useDateFormat(time, 'YYYY.MM.DD').value;
 
 const handlePlay = (item: SongResult) => {
-  playerStore.prepareSongPlayback(item, (searchDetail.value?.songs || []).map(formatSong));
+  // 点单曲只播单曲（队列只放这一首），整表播放走「播放全部」按钮
+  playerStore.prepareSongPlayback(item, [formatSong(item)]);
 };
 
 const handlePlayAll = () => {

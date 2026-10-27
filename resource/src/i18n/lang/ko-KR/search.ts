@@ -7,7 +7,7 @@ export default {
   button: {
     clear: '지우기',
     back: '뒤로',
-    playAll: '재생 목록'
+    playAll: '모두 재생'
   },
   loading: {
     more: '로딩 중...',

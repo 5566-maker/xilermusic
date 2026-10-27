@@ -26,6 +26,15 @@
       </div>
     </div>
 
+    <!-- 播放全部（仅单曲搜索且有结果时显示） -->
+    <div v-if="searchType === SEARCH_TYPE.MUSIC && results.length" class="play-all-bar">
+      <button class="play-all-btn" @click="handlePlayAll">
+        <i class="ri-play-fill"></i>
+        <span>{{ t('search.button.playAll') }}</span>
+        <span class="play-all-count">{{ results.length }}</span>
+      </button>
+    </div>
+
     <!-- 搜索结果列表 -->
     <div class="result-content" @scroll="handleScroll">
       <!-- 加载中 -->
@@ -266,9 +275,16 @@ const handleScroll = (e: Event) => {
   }
 };
 
-// 播放音乐
+// 播放音乐：点单曲只播单曲（队列只放这一首），整表播放走「播放全部」
 const handlePlay = (item: any) => {
-  playerStore.prepareSongPlayback(item, results.value);
+  playerStore.prepareSongPlayback(item, [item]);
+};
+
+// 播放全部：队列设为当前已加载的全部搜索结果并从第一首开始播
+const handlePlayAll = () => {
+  if (!results.value.length) return;
+  playerStore.setPlayList([...results.value]);
+  playerStore.setPlay(results.value[0]);
 };
 
 // 返回
@@ -356,6 +372,26 @@ onMounted(() => {
 
   &.active {
     @apply bg-primary text-white;
+  }
+}
+
+.play-all-bar {
+  @apply px-4 py-2.5;
+  @apply border-b border-gray-100 dark:border-gray-800;
+}
+
+.play-all-btn {
+  @apply flex items-center gap-1.5 px-5 py-2 rounded-full;
+  @apply bg-primary text-white text-sm font-semibold;
+  @apply shadow-lg shadow-primary/25;
+  @apply transition-transform duration-200 active:scale-95;
+
+  i {
+    @apply text-base;
+  }
+
+  .play-all-count {
+    @apply text-xs font-normal text-white/80;
   }
 }
 
