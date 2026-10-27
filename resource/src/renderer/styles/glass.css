@@ -1,0 +1,552 @@
+/* ============================================================
+   XilerMusic — Apple Music 风格 Liquid Glass 设计系统
+   ------------------------------------------------------------
+   设计要点（按 frontend-design 的定调，本 brief 以 Apple 为准）：
+   - 音乐的本体是封面：环境光由当前歌曲主色驱动（--ambient-a/b/c，
+     PlayBar 写入），无歌时回退到暖玫瑰默认色场
+   - 玻璃 = 半透明底 + backdrop blur/saturate + 顶部镜面高光
+     （inset 高光 + 斜向 sheen），不是单纯的模糊
+   - 强调色只有一个：Apple Music 红 #fa243c
+   - 圆角走苹果的连续大圆角：卡片 20、Hero/弹窗 24、播放条 24
+   - 动效用 iOS 曲线 cubic-bezier(0.32, 0.72, 0.24, 1)
+   本文件由 main.ts 最后引入，取代此前的 design.css。
+   ============================================================ */
+
+/* 让环境光颜色可平滑过渡（支持 @property 的浏览器生效） */
+@property --ambient-a {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: rgba(252, 92, 120, 0.32);
+}
+@property --ambient-b {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: rgba(255, 176, 128, 0.26);
+}
+@property --ambient-c {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: rgba(233, 201, 160, 0.24);
+}
+
+/* ---------- 1. 设计令牌 ---------- */
+:root {
+  --base: #f5f5f7;
+  --ambient-a: rgba(252, 92, 120, 0.32);
+  --ambient-b: rgba(255, 176, 128, 0.26);
+  --ambient-c: rgba(233, 201, 160, 0.24);
+  --glass-1: rgba(255, 255, 255, 0.5);
+  --glass-2: rgba(255, 255, 255, 0.66);
+  --glass-3: rgba(255, 255, 255, 0.8);
+  --glass-border: rgba(255, 255, 255, 0.55);
+  --hairline: rgba(0, 0, 0, 0.07);
+  --specular: rgba(255, 255, 255, 0.55);
+  --text: #1d1d1f;
+  --text-2: #6e6e73;
+  --accent: #fa243c;
+  --accent-2: #fc3c44;
+  --accent-strong: #d70015;
+  --accent-soft: rgba(250, 36, 60, 0.1);
+  --mask: rgba(30, 30, 34, 0.32);
+  --blur: blur(26px) saturate(190%);
+  --blur-strong: blur(34px) saturate(200%);
+  --shadow-1: 0 2px 10px rgba(60, 40, 50, 0.07);
+  --shadow-2: 0 12px 34px rgba(60, 40, 50, 0.13);
+  --shadow-3: 0 24px 64px rgba(60, 40, 50, 0.2);
+  --r-md: 14px;
+  --r-lg: 20px;
+  --r-xl: 24px;
+  --ease: cubic-bezier(0.32, 0.72, 0.24, 1);
+}
+
+:root.dark {
+  --base: #000000;
+  --ambient-a: rgba(190, 40, 70, 0.4);
+  --ambient-b: rgba(150, 70, 40, 0.32);
+  --ambient-c: rgba(70, 62, 84, 0.3);
+  --glass-1: rgba(32, 32, 38, 0.5);
+  --glass-2: rgba(36, 36, 43, 0.64);
+  --glass-3: rgba(42, 42, 50, 0.78);
+  --glass-border: rgba(255, 255, 255, 0.14);
+  --hairline: rgba(255, 255, 255, 0.09);
+  --specular: rgba(255, 255, 255, 0.14);
+  --text: #f5f5f7;
+  --text-2: #a1a1a6;
+  --accent-strong: #ff6482;
+  --accent-soft: rgba(250, 36, 60, 0.18);
+  --mask: rgba(0, 0, 0, 0.5);
+  --shadow-1: 0 2px 10px rgba(0, 0, 0, 0.35);
+  --shadow-2: 0 12px 34px rgba(0, 0, 0, 0.45);
+  --shadow-3: 0 24px 64px rgba(0, 0, 0, 0.55);
+}
+
+/* ---------- 2. 环境光底 + 噪点 ---------- */
+html {
+  background: var(--base);
+}
+
+body {
+  color: var(--text);
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: -12%;
+  z-index: -2;
+  pointer-events: none;
+  background:
+    radial-gradient(52% 44% at 18% 8%, var(--ambient-a) 0%, transparent 70%),
+    radial-gradient(46% 40% at 84% 16%, var(--ambient-b) 0%, transparent 70%),
+    radial-gradient(58% 52% at 55% 96%, var(--ambient-c) 0%, transparent 72%);
+  transition:
+    --ambient-a 1.4s ease,
+    --ambient-b 1.4s ease,
+    --ambient-c 1.4s ease;
+  animation: ambient-drift 72s ease-in-out infinite alternate;
+}
+
+@keyframes ambient-drift {
+  from {
+    transform: translate3d(-1.6%, -1%, 0) scale(1);
+  }
+  to {
+    transform: translate3d(1.6%, 1.4%, 0) scale(1.05);
+  }
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+}
+
+:root.dark body::after {
+  opacity: 0.05;
+}
+
+/* 布局容器透明，让环境光透出来 */
+.layout-page,
+.layout-main,
+.layout-main-page,
+.main,
+.main-content,
+.menu {
+  background: transparent;
+}
+
+[class*='-page'],
+[class*='-container'] {
+  background-color: transparent !important;
+}
+
+/* ---------- 3. 玻璃工具类 ---------- */
+.glass-1,
+.glass-2,
+.glass-3 {
+  -webkit-backdrop-filter: var(--blur);
+  backdrop-filter: var(--blur);
+  border: 1px solid var(--glass-border);
+  box-shadow:
+    inset 0 1px 0 var(--specular),
+    var(--shadow-1);
+}
+
+.glass-1 {
+  background: var(--glass-1);
+}
+
+.glass-2 {
+  background: var(--glass-2);
+}
+
+.glass-3 {
+  background: var(--glass-3);
+  -webkit-backdrop-filter: var(--blur-strong);
+  backdrop-filter: var(--blur-strong);
+}
+
+/* ---------- 4. 全局动效与状态 ---------- */
+*,
+*::before,
+*::after {
+  transition-timing-function: var(--ease);
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+button:active,
+.app-menu-item:active,
+.home-list-card:active,
+.daily-card:active,
+.fm-card:active {
+  transform: scale(0.98);
+}
+
+h1,
+h2,
+h3 {
+  text-wrap: balance;
+  letter-spacing: -0.02em;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+::selection {
+  background: rgba(250, 36, 60, 0.26);
+}
+
+/* ---------- 5. 侧栏 ---------- */
+@media (min-width: 768px) {
+  .menu {
+    background: var(--glass-2) !important;
+    -webkit-backdrop-filter: var(--blur);
+    backdrop-filter: var(--blur);
+    border-right: 1px solid var(--hairline);
+    box-shadow: inset -1px 0 0 var(--glass-border);
+  }
+}
+
+.app-menu-logo img {
+  border-radius: var(--r-md);
+}
+
+.app-menu-logo:hover img {
+  transform: scale(1.04);
+}
+
+/* 选中态照 Apple Music：中性灰胶囊 + 红图标红字 */
+.app-menu-item {
+  border-radius: var(--r-md);
+  color: var(--text-2);
+  transition:
+    background-color 0.3s var(--ease),
+    color 0.3s var(--ease),
+    transform 0.2s var(--ease);
+}
+
+.app-menu-item:hover {
+  background: rgba(120, 120, 128, 0.1);
+  color: var(--text);
+}
+
+.app-menu-item.is-active {
+  background: rgba(120, 120, 128, 0.16);
+  color: var(--text);
+  font-weight: 600;
+}
+
+.app-menu-item.is-active .app-menu-item-icon {
+  color: var(--accent);
+}
+
+.menu.mobile-menu {
+  background: var(--glass-3) !important;
+  -webkit-backdrop-filter: var(--blur-strong);
+  backdrop-filter: var(--blur-strong);
+  border-top: 1px solid var(--glass-border);
+}
+
+/* ---------- 6. 顶栏：搜索 + Tab ---------- */
+.search-bar {
+  background: transparent;
+}
+
+.search-bar .action-btn {
+  background: var(--glass-2);
+  -webkit-backdrop-filter: var(--blur);
+  backdrop-filter: var(--blur);
+  border: 1px solid var(--glass-border);
+  border-radius: 999px;
+  color: var(--text-2);
+  box-shadow: inset 0 1px 0 var(--specular);
+  transition:
+    background-color 0.3s var(--ease),
+    color 0.3s var(--ease),
+    transform 0.2s var(--ease);
+}
+
+.search-bar .action-btn:hover {
+  color: var(--text);
+}
+
+.tabs-track {
+  -webkit-backdrop-filter: var(--blur);
+  backdrop-filter: var(--blur);
+  border: 1px solid var(--glass-border);
+  box-shadow: inset 0 1px 0 var(--specular) !important;
+}
+
+.search-inner {
+  background: var(--glass-1) !important;
+  -webkit-backdrop-filter: var(--blur);
+  backdrop-filter: var(--blur);
+  border: 1px solid var(--glass-border);
+  border-radius: 999px !important;
+  box-shadow: inset 0 1px 0 var(--specular) !important;
+  transition: border-color 0.3s var(--ease);
+}
+
+.search-inner--focus,
+.search-inner:focus-within {
+  border-color: var(--accent);
+}
+
+.search-bar input:focus,
+.search-bar .n-input.n-input--focus {
+  outline: none;
+}
+
+.action-bar {
+  background: transparent;
+}
+
+/* ---------- 7. 底部播放器：悬浮玻璃舱 ---------- */
+.music-play-bar {
+  position: relative;
+  background: var(--glass-3) !important;
+  -webkit-backdrop-filter: var(--blur-strong);
+  backdrop-filter: var(--blur-strong);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--r-xl) !important;
+  box-shadow:
+    inset 0 1px 0 var(--specular),
+    var(--shadow-2);
+  overflow: hidden;
+}
+
+/* 斜向镜面反射：左上的一道柔光，是 Liquid Glass 的签名 */
+.music-play-bar::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(115deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.05) 34%, transparent 55%);
+  opacity: 0.7;
+}
+
+:root.dark .music-play-bar::before {
+  opacity: 0.4;
+}
+
+.music-play-bar .music-time {
+  font-family: 'Geist Mono', ui-monospace, monospace;
+  font-variant-numeric: tabular-nums;
+}
+
+.music-play-bar .music-time .n-slider {
+  cursor: pointer;
+}
+
+.music-play-bar .music-time .n-slider-handle {
+  opacity: 0;
+  transition: opacity 0.3s var(--ease);
+}
+
+.music-play-bar:hover .music-time .n-slider-handle,
+.music-play-bar .music-time .n-slider-handle:hover {
+  opacity: 1;
+}
+
+.music-play-bar.play-bar-opcity {
+  opacity: 0.94;
+}
+
+.mobile .music-play-bar {
+  border-radius: var(--r-lg) !important;
+}
+
+.play-bar-img {
+  border-radius: 10px;
+  box-shadow: var(--shadow-1);
+}
+
+/* 主播放键：Apple Music 红的实心键 + 柔光晕 */
+.music-buttons-play {
+  background: linear-gradient(180deg, var(--accent-2) 0%, var(--accent) 100%) !important;
+  color: #ffffff !important;
+  box-shadow:
+    0 6px 18px rgba(250, 36, 60, 0.38),
+    inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  transition:
+    filter 0.3s var(--ease),
+    transform 0.2s var(--ease);
+}
+
+.music-buttons-play:hover {
+  filter: brightness(1.07);
+  transform: scale(1.06);
+}
+
+.music-buttons-play:active {
+  transform: scale(0.96);
+}
+
+.music-buttons-prev,
+.music-buttons-next {
+  color: var(--text-2);
+  transition:
+    color 0.3s var(--ease),
+    transform 0.2s var(--ease);
+}
+
+.music-buttons-prev:hover,
+.music-buttons-next:hover {
+  color: var(--text);
+}
+
+.music-buttons-prev:active,
+.music-buttons-next:active {
+  transform: scale(0.92);
+}
+
+.music-play-bar .n-slider-rail {
+  background: rgba(120, 120, 128, 0.25);
+}
+
+.music-play-bar .n-slider-rail__fill {
+  background: var(--accent);
+}
+
+/* ---------- 8. 卡片与列表 ---------- */
+.n-card {
+  background: var(--glass-1) !important;
+  -webkit-backdrop-filter: var(--blur);
+  backdrop-filter: var(--blur);
+  border: 1px solid var(--glass-border) !important;
+  border-radius: var(--r-lg) !important;
+  box-shadow:
+    inset 0 1px 0 var(--specular),
+    var(--shadow-1) !important;
+}
+
+.song-item,
+.standard-song-item,
+[class*='song-item'] {
+  border-radius: var(--r-md);
+  transition: background-color 0.3s var(--ease);
+}
+
+.song-item:hover,
+.standard-song-item:hover,
+[class*='song-item']:hover {
+  background: var(--glass-1);
+}
+
+[class*='cover'] img,
+[class*='card'] img {
+  border-radius: inherit;
+}
+
+/* 首页歌单卡：整卡玻璃，封面圆角按嵌套（外 20 − 间距 8 = 12） */
+.home-list-card {
+  background: var(--glass-1);
+  -webkit-backdrop-filter: var(--blur);
+  backdrop-filter: var(--blur);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--r-lg);
+  box-shadow: inset 0 1px 0 var(--specular);
+  padding: 8px;
+  transition:
+    background-color 0.3s var(--ease),
+    transform 0.5s var(--ease),
+    box-shadow 0.5s var(--ease);
+}
+
+.home-list-card:hover {
+  background: var(--glass-2);
+  transform: translateY(-2px);
+  box-shadow:
+    inset 0 1px 0 var(--specular),
+    var(--shadow-2);
+}
+
+.home-list-card > div:first-child {
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.home-list-card:hover img {
+  transform: scale(1.04);
+}
+
+/* Hero 卡：玻璃描边 + 大投影，底色由封面取色（组件内联） */
+.daily-card,
+.fm-card {
+  border: 1px solid var(--glass-border) !important;
+  border-radius: var(--r-xl) !important;
+  box-shadow:
+    inset 0 1px 0 var(--specular),
+    var(--shadow-2) !important;
+}
+
+/* ---------- 9. Naive 面板 ---------- */
+.n-modal,
+.n-drawer {
+  border-radius: var(--r-xl) !important;
+  -webkit-backdrop-filter: var(--blur-strong);
+  backdrop-filter: var(--blur-strong);
+}
+
+.n-popover,
+.n-dropdown-menu,
+.n-popselect-menu {
+  border-radius: var(--r-md) !important;
+  -webkit-backdrop-filter: var(--blur-strong);
+  backdrop-filter: var(--blur-strong);
+  box-shadow:
+    inset 0 1px 0 var(--specular),
+    var(--shadow-2) !important;
+}
+
+.n-modal-mask,
+.n-drawer-mask {
+  background: var(--mask) !important;
+}
+
+/* ---------- 10. 滚动条 ---------- */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(120, 120, 128, 0.35);
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(120, 120, 128, 0.55);
+  background-clip: padding-box;
+}
+
+/* ---------- 11. 降低动态偏好 ---------- */
+@media (prefers-reduced-motion: reduce) {
+  body::before {
+    animation: none;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

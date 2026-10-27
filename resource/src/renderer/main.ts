@@ -8,8 +8,8 @@ import './index.css';
 import '@/assets/css/mobile.css';
 import 'animate.css';
 import 'remixicon/fonts/remixicon.css';
-// 扁平设计系统（redesign skill 的 Design Values）：放在所有基础样式之后，确保覆盖生效
-import './styles/design.css';
+// Apple Liquid Glass 设计系统：放在所有基础样式之后，确保覆盖生效
+import './styles/glass.css';
 
 import { createApp } from 'vue';
 

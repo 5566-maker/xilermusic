@@ -55,38 +55,39 @@ const theme = computed(() => {
 });
 
 /**
- * 扁平设计系统：naive-ui 面板用不透明的批准色板，
- * 强调色全站统一为 Tailwind primary 的 #22c55e，圆角只用标准阶。
+ * Apple Liquid Glass 主题：naive-ui 面板用半透明底色，
+ * 配合 glass.css 的 backdrop-filter 实现磨砂玻璃；
+ * 强调色为 Apple Music 红 #fa243c。
  */
 const themeOverrides = computed(() => {
   const isDark = theme.value === 'dark';
-  const panel = isDark ? '#181818' : '#ffffff';
-  const panelSoft = isDark ? '#181818' : '#f5f5f5';
-  const inputBg = isDark ? '#1f1f1f' : '#f5f5f5';
-  const border = isDark ? '#272727' : '#e5e5e5';
+  const panel = isDark ? 'rgba(34, 34, 40, 0.72)' : 'rgba(255, 255, 255, 0.72)';
+  const panelSoft = isDark ? 'rgba(30, 30, 36, 0.6)' : 'rgba(255, 255, 255, 0.55)';
+  const inputBg = isDark ? 'rgba(255, 255, 255, 0.07)' : 'rgba(255, 255, 255, 0.45)';
+  const border = isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.06)';
 
   return {
     common: {
-      primaryColor: '#22c55e',
-      primaryColorHover: '#4ade80',
-      primaryColorPressed: '#16a34a',
-      primaryColorSuppl: '#22c55e',
+      primaryColor: '#fa243c',
+      primaryColorHover: '#fb5c74',
+      primaryColorPressed: '#d70015',
+      primaryColorSuppl: '#fa243c',
       borderColor: border,
       borderRadius: '16px',
-      borderRadiusSmall: '8px'
+      borderRadiusSmall: '10px'
     },
-    Card: { color: panelSoft, borderRadius: '16px' },
+    Card: { color: panelSoft, borderRadius: '20px' },
     Modal: { color: panel, borderRadius: '24px' },
     Dialog: { color: panel, borderRadius: '24px' },
     Drawer: { color: panel, borderRadius: '24px' },
-    Popover: { color: panel, borderRadius: '12px' },
-    Popconfirm: { color: panel, borderRadius: '12px' },
-    Dropdown: { color: panel, borderRadius: '12px' },
+    Popover: { color: panel, borderRadius: '16px' },
+    Popconfirm: { color: panel, borderRadius: '16px' },
+    Dropdown: { color: panel, borderRadius: '16px' },
     Input: { color: inputBg, borderRadius: '12px' },
     InternalSelection: { color: inputBg, borderRadius: '12px' },
     Tag: { borderRadius: '8px' },
-    Button: { borderRadiusMedium: '12px', borderRadiusSmall: '8px' },
-    Tooltip: { borderRadius: '8px' }
+    Button: { borderRadiusMedium: '12px', borderRadiusSmall: '10px' },
+    Tooltip: { borderRadius: '10px' }
   };
 });
 

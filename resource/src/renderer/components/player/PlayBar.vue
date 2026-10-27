@@ -185,6 +185,7 @@
 <script lang="ts" setup>
 import { useThrottleFn } from '@vueuse/core';
 import { storeToRefs } from 'pinia';
+import tinycolor from 'tinycolor2';
 import { computed, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -254,6 +255,43 @@ watch(
     }
   },
   { immediate: true, deep: true }
+);
+
+/**
+ * 环境光：把当前歌曲主色转成三团柔和光斑，写入 CSS 变量。
+ * glass.css 里的 body::before 会用 --ambient-a/b/c 渲染背景，
+ * 切歌时背景颜色跟着封面走（Liquid Glass 的动态反射底）。
+ */
+watch(
+  background,
+  (color) => {
+    const root = document.documentElement;
+    const base = tinycolor(color || '');
+
+    // 主色过暗、过灰时回退到 CSS 里的默认环境光，避免背景发黑
+    if (!base.isValid() || base.getBrightness() < 22 || base.getSaturation() < 8) {
+      root.style.removeProperty('--ambient-a');
+      root.style.removeProperty('--ambient-b');
+      root.style.removeProperty('--ambient-c');
+      return;
+    }
+
+    const isDark = settingsStore.theme === 'dark';
+
+    root.style.setProperty(
+      '--ambient-a',
+      base.clone().saturate(-6).lighten(isDark ? 4 : 12).setAlpha(isDark ? 0.6 : 0.5).toRgbString()
+    );
+    root.style.setProperty(
+      '--ambient-b',
+      base.clone().spin(44).saturate(-16).lighten(isDark ? 0 : 9).setAlpha(isDark ? 0.46 : 0.38).toRgbString()
+    );
+    root.style.setProperty(
+      '--ambient-c',
+      base.clone().spin(-56).saturate(-10).lighten(isDark ? 2 : 13).setAlpha(isDark ? 0.44 : 0.36).toRgbString()
+    );
+  },
+  { immediate: true }
 );
 
 // 节流版本的 seek 函数

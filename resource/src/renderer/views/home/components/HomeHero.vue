@@ -302,8 +302,8 @@ const hotPlaylists = ref<any[]>([]);
 const hotArtistsList = ref<any[]>([]);
 const dailyCoverRef = ref<HTMLImageElement | null>(null);
 const fmCoverRef = ref<HTMLImageElement | null>(null);
-const dailyCardBg = ref('#272727');
-const fmCardBg = ref('#1f1f1f');
+const dailyCardBg = ref('linear-gradient(135deg, #fc466b 0%, #fa243c 100%)');
+const fmCardBg = ref('linear-gradient(135deg, #ff9966 0%, #fa243c 100%)');
 
 const isLoggedIn = computed(() => !!userStore.user);
 const dayRecommendSongs = computed(() => recommendStore.dailyRecommendSongs);
@@ -339,10 +339,11 @@ const extractDailyColor = async () => {
       const base = tinycolor(primaryColor);
       const hsl = base.toHsl();
       const c1 = tinycolor({ h: hsl.h, s: Math.min(hsl.s * 1.2, 1), l: 0.35 });
-      dailyCardBg.value = c1.toHexString();
+      const c2 = tinycolor({ h: (hsl.h + 30) % 360, s: Math.min(hsl.s * 1.1, 1), l: 0.25 });
+      dailyCardBg.value = `linear-gradient(135deg, ${c1.toHexString()} 0%, ${c2.toHexString()} 100%)`;
     }
   } catch {
-    // keep default color
+    // keep default gradient
   }
 };
 
@@ -356,10 +357,11 @@ const extractFmColor = async () => {
       const base = tinycolor(primaryColor);
       const hsl = base.toHsl();
       const c1 = tinycolor({ h: hsl.h, s: Math.min(hsl.s * 1.3, 1), l: 0.4 });
-      fmCardBg.value = c1.toHexString();
+      const c2 = tinycolor({ h: (hsl.h + 20) % 360, s: Math.min(hsl.s * 1.1, 1), l: 0.3 });
+      fmCardBg.value = `linear-gradient(135deg, ${c1.toHexString()} 0%, ${c2.toHexString()} 100%)`;
     }
   } catch {
-    // keep default color
+    // keep default gradient
   }
 };
 
@@ -718,7 +720,7 @@ onActivated(() => {
 .eq-bar {
   width: 3px;
   border-radius: 9999px;
-  background-color: #22c55e;
+  background-color: #fa243c;
   animation: eqPulse 0.8s ease-in-out infinite;
 }
 .eq-bar:nth-child(1) {

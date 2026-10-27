@@ -6,6 +6,8 @@ export default {
     extend: {
       fontFamily: {
         sans: [
+          '-apple-system',
+          'BlinkMacSystemFont',
           '"Geist Sans"',
           '"PingFang SC"',
           '"Hiragino Sans GB"',
@@ -17,13 +19,13 @@ export default {
         mono: ['"Geist Mono"', 'ui-monospace', 'SFMono-Regular', 'monospace']
       },
       transitionTimingFunction: {
-        skill: 'cubic-bezier(0.22, 1, 0.36, 1)'
+        apple: 'cubic-bezier(0.32, 0.72, 0.24, 1)'
       },
       colors: {
         primary: {
-          DEFAULT: '#22c55e',
-          light: '#22c55e',
-          dark: '#1eb154ff'
+          DEFAULT: '#fa243c',
+          light: '#fc3c44',
+          dark: '#d70015'
         },
         secondary: {
           DEFAULT: '#6c757d',
