@@ -29,7 +29,7 @@
                 <span
                   v-if="settingsStore.setData.isMenuExpanded"
                   class="app-menu-item-text ml-3"
-                  :class="isChecked(index) ? 'text-green-500' : ''"
+                  :class="isChecked(index) ? 'text-primary' : ''"
                   >{{ t(item.meta.title) }}</span
                 >
               </router-link>
@@ -169,7 +169,7 @@ const toggleMenu = () => {
   @apply transition-all duration-200 text-gray-500 dark:text-gray-400;
 
   &:hover {
-    @apply text-green-500 scale-105 !important;
+    @apply text-primary scale-105 !important;
   }
 }
 

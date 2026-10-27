@@ -1466,7 +1466,8 @@ const getWordStyle = (lineIndex: number, _wordIndex: number, word: any) => {
 
         // 控制按钮
         .landscape-main-controls {
-          @apply fixed bottom-6 right-6 flex items-center z-[10000];
+          @apply absolute right-6 flex items-center z-[10000];
+          bottom: calc(1.5rem + env(safe-area-inset-bottom, 0px));
 
           .main-button {
             @apply mx-2;
@@ -1536,9 +1537,11 @@ const getWordStyle = (lineIndex: number, _wordIndex: number, word: any) => {
       }
     }
 
-    // 统一控制区域
+    // 统一控制区域（absolute 锚定抽屉底部，不用 fixed——iOS Chrome 下 fixed 以布局视口为
+    // 基准，工具栏显示时控件会被顶出可视区；抽屉本身已是 dvh 高度，absolute 才贴合可视底）
     .unified-controls {
-      @apply fixed bottom-0 left-0 right-0 px-6 pt-6 pb-6;
+      @apply absolute bottom-0 left-0 right-0 px-6 pt-6;
+      padding-bottom: calc(1.5rem + env(safe-area-inset-bottom, 0px));
       background: linear-gradient(to top, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0) 100%);
       height: 230px;
       pointer-events: auto;

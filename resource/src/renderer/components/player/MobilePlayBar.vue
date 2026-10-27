@@ -128,7 +128,7 @@ watch(
 
 <style lang="scss" scoped>
 .mobile-play-bar {
-  @apply fixed bottom-[76px] left-0 w-full flex flex-col;
+  @apply absolute bottom-[76px] left-0 w-full flex flex-col;
   z-index: 10000;
   animation-duration: 0.3s !important;
   transition: all 0.3s ease;
@@ -286,14 +286,14 @@ watch(
           @apply bg-gray-100 dark:bg-gray-800;
 
           .iconfont {
-            @apply text-xl text-green-500 transition hover:text-green-600;
+            @apply text-xl text-primary transition hover:text-primary-dark;
           }
         }
       }
 
       .mini-list-icon {
         @apply text-xl p-1 transition cursor-pointer;
-        @apply hover:text-green-500;
+        @apply hover:text-primary;
       }
     }
   }

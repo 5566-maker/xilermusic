@@ -85,7 +85,7 @@ const openSettings = () => {
   @apply flex items-center;
 
   .logo-text {
-    @apply text-lg font-bold text-green-500;
+    @apply text-lg font-bold text-primary;
   }
 }
 

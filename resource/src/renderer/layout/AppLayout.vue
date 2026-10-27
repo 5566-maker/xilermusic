@@ -150,7 +150,7 @@ provide('openPlaylistDrawer', openPlaylistDrawer);
 
 <style lang="scss" scoped>
 .layout-page {
-  @apply w-screen h-screen overflow-hidden bg-light dark:bg-black;
+  @apply w-screen h-dvh overflow-hidden bg-light dark:bg-black;
 }
 
 .layout-main {
@@ -179,7 +179,7 @@ provide('openPlaylistDrawer', openPlaylistDrawer);
 
 .mobile {
   .main-content {
-    height: calc(100vh - 130px);
+    height: calc(100dvh - 130px);
     overflow: auto;
     display: block;
     flex: none;
@@ -187,7 +187,7 @@ provide('openPlaylistDrawer', openPlaylistDrawer);
   }
 
   .mobile-content {
-    height: calc(100vh - 75px);
+    height: calc(100dvh - 75px);
     position: relative;
   }
 }
