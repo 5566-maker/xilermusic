@@ -5,6 +5,21 @@
 @tailwind components;
 @tailwind utilities;
 
+/* 高度链：外壳用 height:100% 逐级填充浏览器给页面的内容框，不用 vh/dvh 单位——
+   iOS Chrome（尤其测试版系统）上 dvh 的计算值会小于实际内容框，导致整屏压缩、
+   下方留白。百分比由父框决定，浏览器给多高就填多高。 */
+html,
+body,
+#app {
+  height: 100%;
+}
+
+/* Naive UI 的 n-config-provider 会在 .app-container 与布局之间多包一层 div，
+   不给它高度，子级外壳的 height:100% 会退化为 auto（按内容撑高）。 */
+.n-config-provider {
+  height: 100%;
+}
+
 /* 页面内容区域统一边距工具类 */
 .page-padding {
   padding-left: var(--page-pl);

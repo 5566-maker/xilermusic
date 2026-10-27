@@ -96,7 +96,7 @@ provide('openPlaylistDrawer', openPlaylistDrawer);
 
 <style lang="scss" scoped>
 .mobile-layout {
-  @apply w-screen h-dvh flex flex-col;
+  @apply w-screen h-full flex flex-col;
   @apply bg-light dark:bg-black;
   @apply overflow-hidden;
   position: relative;
