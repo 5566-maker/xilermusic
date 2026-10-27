@@ -139,7 +139,9 @@ body::after {
   background: transparent;
 }
 
-[class*='-page'],
+/* 全屏覆盖页（.mobile-search-page 是 fixed inset-0 覆盖层）必须保留自己的不透明
+   背景，否则会透出底下的顶栏（返回键/齿轮与搜索栏重叠）。 */
+[class*='-page']:not(.mobile-search-page),
 [class*='-container'] {
   background-color: transparent !important;
 }

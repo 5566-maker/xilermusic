@@ -355,7 +355,7 @@ onMounted(() => {
   @apply transition-colors duration-200;
 
   &.active {
-    @apply bg-green-500 text-white;
+    @apply bg-primary text-white;
   }
 }
 
