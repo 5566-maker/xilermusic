@@ -139,9 +139,11 @@ body::after {
   background: transparent;
 }
 
-/* 全屏覆盖页（.mobile-search-page 是 fixed inset-0 覆盖层）必须保留自己的不透明
-   背景，否则会透出底下的顶栏（返回键/齿轮与搜索栏重叠）。 */
-[class*='-page']:not(.mobile-search-page),
+/* 全屏覆盖页必须保留自己的不透明背景，否则会透出底下的顶栏（返回键/标题/齿轮
+   与覆盖页头部重叠成重影）。注意：MobileLayout 的 router-view 会给每个页面根元素
+   追加 mobile-page 类，所以 [class*='-page'] 实际会命中所有路由页——普通流内页
+   透明是玻璃效果所需，但 fixed 覆盖页必须排除，目前有搜索页与搜索结果页两页。 */
+[class*='-page']:not(.mobile-search-page):not(.mobile-search-result),
 [class*='-container'] {
   background-color: transparent !important;
 }
