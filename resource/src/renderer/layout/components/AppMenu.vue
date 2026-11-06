@@ -154,7 +154,7 @@ const toggleMenu = () => {
 
 .app-menu-item-link,
 .app-menu-header {
-  @apply flex items-center w-[200px] overflow-hidden ml-2 px-5;
+  @apply flex items-center w-full overflow-hidden ml-2 px-5;
 }
 
 .app-menu-header {
